@@ -1,3 +1,4 @@
+/* Projeto - Filtro em C*/
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
