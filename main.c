@@ -22,7 +22,7 @@ int main(void){
       //filtro os dados ("." e "..") gerados da abertura de diretorio
       if((strcmp(dir->d_name, ".")==0 || strcmp(dir->d_name, "..")==0)) continue;
       printf("%s\n", dir->d_name);
-			// formata uma string e guardar o resultado em um array, uma especie de concatenação
+      // formata uma string e guardar o resultado em um array, uma especie de concatenação
       //feito isso para passar o caminho correto para a leitura do arquivo
       sprintf(nomeFinal, "imagens/%s", dir->d_name);
       // Leitura da Imagem -PGM
