@@ -16,7 +16,7 @@ int main(void){
   clock_t begin, end;
 	double time_per_img, time_total=0; 
    
-  d = opendir("./imagens");
+  d = opendir("./Colon_TMA");
   if (d)  {
     while ((dir = readdir(d)) != NULL){
       //filtro os dados ("." e "..") gerados da abertura de diretorio
@@ -24,7 +24,7 @@ int main(void){
       printf("%s\n", dir->d_name);
       // formata uma string e guardar o resultado em um array, uma especie de concatenação
       //feito isso para passar o caminho correto para a leitura do arquivo
-      sprintf(nomeFinal, "imagens/%s", dir->d_name);
+      sprintf(nomeFinal, "Colon_TMA/%s", dir->d_name);
       // Leitura da Imagem -PGM
       readPGMImage(&imgIn, nomeFinal);
       //zero o vetor do histograma
