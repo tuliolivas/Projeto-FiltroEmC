@@ -1,5 +1,5 @@
 /* Projeto - Filtro em C*/
-#include <dirent.h>
+#include <dirent.h> //only work in gcc
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
