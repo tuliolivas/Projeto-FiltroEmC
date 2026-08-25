@@ -73,6 +73,3 @@ No terminal, o programa imprime:
 
 O LBP compara cada pixel com seus vizinhos em uma vizinhança local e gera um valor binário que representa o padrão visual daquele ponto. O histograma acumulado ao longo da imagem representa a distribuição desses padrões.
 
-## Licença
-
-
