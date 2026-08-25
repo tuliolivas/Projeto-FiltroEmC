@@ -75,4 +75,4 @@ O LBP compara cada pixel com seus vizinhos em uma vizinhança local e gera um va
 
 ## Licença
 
-Este projeto foi desenvolvido para fins acadêmicos e de estudo em processamento digital de imagens em linguagem C.
+
