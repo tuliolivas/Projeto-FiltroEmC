@@ -1,5 +1,5 @@
 /* Projeto - Filtro em C*/
-#include <dirent.h> //only work in gcc
+#include <dirent.h> //só funciona no gcc
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -12,38 +12,49 @@ int main(void){
   struct pgm imgIn;
   struct dirent *dir;
   unsigned int hist[256];
-  char r, nomeFinal[200];
+  char r, nomeFinal[512];
   clock_t begin, end;
-	double time_per_img, time_total=0; 
-   
+  double time_per_img, time_total = 0.0;
+  unsigned int qtd_imagens = 0;
+
   d = opendir("./Colon_TMA");
-  if (d)  {
-    while ((dir = readdir(d)) != NULL){
-      //filtro os dados ("." e "..") gerados da abertura de diretorio
-      if((strcmp(dir->d_name, ".")==0 || strcmp(dir->d_name, "..")==0)) continue;
+  if (d) {
+    while ((dir = readdir(d)) != NULL) {
+      if ((strcmp(dir->d_name, ".") == 0 || strcmp(dir->d_name, "..") == 0)) {
+        continue;
+      }
+
       printf("%s\n", dir->d_name);
-      // formata uma string e guardar o resultado em um array, uma especie de concatenação
-      //feito isso para passar o caminho correto para a leitura do arquivo
-      sprintf(nomeFinal, "Colon_TMA/%s", dir->d_name);
-      // Leitura da Imagem -PGM
+      snprintf(nomeFinal, sizeof(nomeFinal), "Colon_TMA/%s", dir->d_name);
+
       readPGMImage(&imgIn, nomeFinal);
-      //zero o vetor do histograma
-      for(int j=0;j<256;j++)  hist[j]=0;
-      //inicia a contagem de tempo da função de LBP (Local Binary Patterns)      
+
+      for (int j = 0; j < 256; j++) {
+        hist[j] = 0;
+      }
+
       begin = clock();
-      lbp(&imgIn,  hist);
+      lbp(&imgIn, hist);
       end = clock();
-      //encerra a contagem de tempo, calcula a media e o tempo total				
-			time_per_img = (double)(end - begin) / CLOCKS_PER_SEC;				
-			time_total += time_per_img;
-      //captura o rotulo
+
+      time_per_img = (double)(end - begin) / CLOCKS_PER_SEC;
+      time_total += time_per_img;
+      qtd_imagens++;
+
       r = *(dir->d_name);
-      //escreve o histograma
       writeHistograma(hist, &r);
     }
+
     closedir(d);
-    printf("Tempo médio: %lf\n",time_total/QTDIMG);
-		printf("Tempo Total: %lf\n",time_total);
+
+    if (qtd_imagens > 0) {
+      printf("Tempo médio: %lf\n", time_total / qtd_imagens);
+    } else {
+      printf("Tempo médio: 0.000000\n");
+    }
+
+    printf("Tempo Total: %lf\n", time_total);
   }
-  return(0);
+
+  return 0;
 }

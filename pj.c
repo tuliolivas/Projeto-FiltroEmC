@@ -87,64 +87,56 @@ void viewPGMImage(struct pgm *pio){
 }
 //nossas funções
 void lbp(struct pgm *a, unsigned int *ph) {
-	int contc = 1, contl = 1,  n;
-	for(int i=0;i<(a->r)*(a->c);i++){
-		n=0;    
-		if(!((contc-1<1) || (*(a->pData+(i-1)) < *(a->pData+i)))){
-			n+=128;
+	int cols = a->c;
+	int rows = a->r;
+
+	for (int y = 0; y < rows; y++) {
+		for (int x = 0; x < cols; x++) {
+			int center = y * cols + x;
+			unsigned char center_value = a->pData[center];
+			unsigned int code = 0;
+			int bit_index = 0;
+
+			int offsets[8][2] = {
+				{-1, -1}, {0, -1}, {1, -1},
+				{1, 0},   {1, 1},  {0, 1},
+				{-1, 1},  {-1, 0}
+			};
+
+			for (int k = 0; k < 8; k++) {
+				int nx = x + offsets[k][0];
+				int ny = y + offsets[k][1];
+
+				if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+					unsigned char neighbor_value = a->pData[ny * cols + nx];
+					if (neighbor_value >= center_value) {
+						code |= (1u << (7 - bit_index));
+					}
+				}
+
+				bit_index++;
+			}
+
+			ph[code]++;
 		}
-		if(!((contl+1>a->r) || (contc-1<1) || (*(a->pData+i+(a->c-1)) < *(a->pData+i)))){
-			n+=64;
-		}
-		if(!((contl+1>a->r) || (*(a->pData+i+a->c) < *(a->pData+i)))){
-		  n+=32;
-		}
-		if(!((contl+1>a->r) || (contc+1>a->c) || (*(a->pData+i+(a->c+1))<*(a->pData+i)))){
-			n+=16;
-		}
-		if(!((contc+1>a->c) || (*(a->pData+i+1)<*(a->pData+i)))){
-			n+=8;
-		}
-		if(!((contl-1<1) || (contc+1>a->c) || (*(a->pData+i-(a->c-1))<(*(a->pData+i))))){
-			n+=4;
-		}
-		if(!((contl-1<1) || (*(a->pData+i-a->c))<(*(a->pData+i)))){
-			n+=2;
-		}
-		if(!((contl-1<1) || (contc-1<1) || (*(a->pData+i-(a->c+1)))<(*(a->pData+i)))){
-			n+=1;
-		}
-    	(*(ph+n))++;
-    	if(contc%(a->c)==0){
-     		contl++;
-			  contc=1;
-    	}
-    	else contc++;
 	}
 }
 
 void writeHistograma(unsigned int *h, char *rotulo){
 	FILE *fp;
-	char ch;
 
 	if (!(fp = fopen("Histograma.csv","a"))){
 		perror("Erro.");
 		exit(1);
 	}
 
-	for (int i = 0; i < 257; i++)
+	for (int i = 0; i < 256; i++)
 	{
-		if (i == 256)
-		{
-			fprintf(fp, "%c\n", *rotulo);
-			break;
-		}
-		
-		fprintf(fp, "%u;", *(h + i));
+		fprintf(fp, "%u;", h[i]);
 	}
 
+	fprintf(fp, "%c\n", *rotulo);
 	fclose(fp);
-
 }
 
 void limparBuffer (void){

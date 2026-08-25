@@ -1,4 +1,4 @@
-#ifndef PJ_H_INCLUDED  //if not defined, verifica se ja foi criado para evitar redundancias
+#ifndef PJ_H_INCLUDED
 #define PJ_H_INCLUDED
 
 #include <stdlib.h>
