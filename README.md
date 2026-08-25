@@ -1,6 +1,6 @@
 # Projeto Filtro em C
 
-Este projeto implementa uma rotina em C para processar imagens PGM usando o descritor Local Binary Pattern (LBP), gerar um histograma de intensidade de padrões locais e registrar os resultados em um arquivo CSV.
+Este projeto foi criado como Trabalho final da disciplina Laboratório de Programação e implementa uma rotina em C para processar imagens PGM usando o descritor Local Binary Pattern (LBP), gerar um histograma de intensidade de padrões locais e registrar os resultados em um arquivo CSV.
 
 ## Objetivo
 
